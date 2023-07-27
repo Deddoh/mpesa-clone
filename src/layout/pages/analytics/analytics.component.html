@@ -1,38 +1,31 @@
-<nz-card [nzBordered]="true" nzTitle="{{cardTitle | uppercase}}">
+<nz-card [nzBordered]="true" nzTitle="{{cardTitle | uppercase}}" class="boxCard">
     <nz-table #basicTable nzSize="small" [nzData]="_data" [nzFrontPagination]="false" [nzLoading]="loading"
        [nzPageSize]="perPage" [nzPageIndex]="page" nzShowSizeChanger
       (nzQueryParams)="onQueryParamsChange($event)">
       <thead>
         <tr>
         
-          <th>Full Name</th>
-          <th>Email</th>
+          
           <th>Phone Number</th>
-          <th>Status</th>
-          <th>Blocked</th>
-          <th>Pending Action</th>
-          <th>Created On</th>
+          <th>Amount</th>
+          <th>Transaction Type</th>
           <th>Actions</th>
+        
         </tr>
       </thead>
       <tbody nzSize="small">
         <tr *ngFor="let data of basicTable.data">
       
-          <td>{{data.firstName | titlecase}}&nbsp;{{data.lastName | titlecase}}</td>
-          <td>{{data.email | lowercase}}</td>
-          <td><code>{{data.phoneNumber}}</code></td>
+          <td><code>{{data.phone}}</code></td>
           <td>
+          {{data.amount}}
+          </td>
+          <td>
+          {{data.type}}
+          </td>
           
-          </td>
-          <td>
-          
-          </td>
-          <td>
-            
-          </td>
-          <td><code class="style-failed">{{data.createdOn | date:'YYYY-MM-dd HH:mm:ss'}}</code></td>
-          <td>         
-          </td>
+          <!-- <td><code class="style-failed">{{data.createdOn | date:'YYYY-MM-dd HH:mm:ss'}}</code></td> -->
+          <td (click)="deleteRecord(data)"><mat-icon>delete</mat-icon></td>
         </tr>
       </tbody>
     </nz-table>

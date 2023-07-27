@@ -1,9 +1,6 @@
 import {
   Component,
-  Input,
-  OnDestroy,
-  OnInit,
-  ViewChild
+  OnInit
 } from "@angular/core";
 
 import { Event, NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router } from "@angular/router";
@@ -13,7 +10,7 @@ import { Event, NavigationCancel, NavigationEnd, NavigationError, NavigationStar
   selector: "app-layout-inner",
   templateUrl: "./main-layout.component.html",
 })
-export class MainLayoutComponent implements OnInit, OnDestroy {
+export class MainLayoutComponent implements OnInit {
   loading: boolean = true;
 
   url!: string;
@@ -31,10 +28,6 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
     this.router.events.subscribe((routerEvent: Event)=> {
       this.checkRouterEvent(routerEvent);
     })
-  }
-
-  ngOnDestroy(): void {
-    // this.layoutRouter.unsubscribe();
   }
 
 

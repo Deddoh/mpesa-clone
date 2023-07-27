@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 
 import {AngularFireAuth} from '@angular/fire/compat/auth'
 
@@ -34,6 +33,7 @@ isLoggedIn = false;
 
   logout(){
     this.firebaseAuth.signOut();
+    this.isLoggedIn = false;
     localStorage.removeItem("currentUser");
   }
 }

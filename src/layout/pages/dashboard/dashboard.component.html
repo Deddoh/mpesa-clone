@@ -1,30 +1,60 @@
-<div fxLayout="row" fxLayoutAlign="space-between center" class="dashboard">
-    <mat-card flex="50">
+<div fxLayout="row" fxLayoutAlign="space-between center" class="dashboard" >
+
+    <!-- <mat-card fxFlex="33" class="boxCard">
         <mat-card-header>
             <mat-card-title>Account Details</mat-card-title>
         </mat-card-header>
         <mat-card-content>
             <h3>Total Balance: Ksh. 0.00</h3> 
         </mat-card-content>
-    </mat-card>
-    <app-analytics></app-analytics>
-    <mat-card flex="33">
+    </mat-card> -->
+ <mat-card class="boxCard" fxFlex="60">   <app-analytics  ></app-analytics> </mat-card>
+    <mat-card fxFlex="20" class="boxCard">
         <mat-card-header>
-            <mat-card-title>Top Up</mat-card-title>
+            <mat-card-title>
+        <img src="assets/images/m-pesa-logo.png" width="150" height="50" alt="" /> Top Up
+    </mat-card-title>
+
         </mat-card-header>
         <mat-card-content >
-            <h3>Current Balance: Ksh. 0.00</h3> 
-            <form fxLayout="column" fxLayoutAlign="center center">
+            
+            <form fxLayout="column" [formGroup]="form"  (ngSubmit)="topUp(form.value)">
                 <div class="form-group">
-                    <label for="phone">Phone Number <span class="required">*</span></label>
-                    <input type="tel" id="phone" required class="form-control">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="type" formControlName="type" id="exampleRadios1" value="Credit" checked>
+                        <label class="form-check-label" for="exampleRadios1">
+                          My Number
+                        </label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="type" formControlName="type"  id="exampleRadios2" value="Debit">
+                        <label class="form-check-label" for="exampleRadios2">
+                         Other Number
+                        </label>
+                      </div>
                 </div>
                 <div class="form-group">
-                    <label for="amount">Amount <span class="required">*</span></label>
-                    <input type="number" required placeholder="enter amount" class="form-control">
-                </div>
+          <label for="">Phone Number</label>
+          <div class="input-group">
+          <input class="form-control form-control-lg form-control-solid" type="tel" name="phone"
+            autocomplete="off" formControlName="phone" />
+          
+            </div>
+          <small *ngIf="form.controls['phone'].hasError('required') && form.controls['phone'].touched"
+            class="mat-text-warn">Phone is required.</small>
+        </div>
+                <div class="form-group">
+          <label for="">Amount</label>
+          <div class="input-group">
+          <input class="form-control form-control-lg form-control-solid" type="number" name="amount"
+            autocomplete="off" formControlName="amount" />
+          
+            </div>
+          <small *ngIf="form.controls['phone'].hasError('required') && form.controls['phone'].touched"
+            class="mat-text-warn">Phone is required.</small>
+        </div>
 <br>
-                <button type="submit" class="btn btn-outline-primary">Buy from Mpesa</button>
+                <button type="submit" class="btn btn-outline-primary">Top Up Mpesa</button>
             </form>
         </mat-card-content>
     </mat-card>

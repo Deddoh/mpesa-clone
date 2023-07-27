@@ -17,19 +17,26 @@
     "moduleResolution": "node",
     "importHelpers": true,
     "target": "ES2022",
+    "skipLibCheck": true,
     "module": "ES2022",
     "useDefineForClassFields": false,
     "lib": [
       "ES2022",
       "dom"
+    ],
+    "paths":{
+    "crypto": [
+      "node_modules/crypto-js"
     ]
+  },
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
     "strictTemplates": true,
-    "enableIvy": false
+    "enableIvy": false,
+    "types":["node"]
     
   }
 }
