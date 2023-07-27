@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { first } from 'rxjs/operators';
 import { AuthService } from '../auth.service';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -16,12 +16,14 @@ export class LoginComponent implements OnInit {
   returnUrl: any;
   fieldTextType: boolean = false;
   submitted: boolean = false;
+  showRegistration: boolean = false;
 
   constructor(
     private authService: AuthService,
     private fb: FormBuilder,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private toastr: ToastrService
 
   ) {
     // if (authService.currentUser) {
@@ -33,15 +35,16 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {    
     
-    // if (this.authService.currentUser) {
-    //   this.router.navigate(['/']);
-    // } else {
-    //   this.authService.logout();
-    // }
-    this.returnUrl = this.route.snapshot.queryParamMap.get('returnUrl') || '/';
+    if (this.authService.isLoggedIn) {
+      this.router.navigate(['/dashboard']);
+    } else {
+      this.authService.logout();
+    }
+    this.returnUrl = this.route.snapshot.queryParamMap.get('returnUrl') || '/dashboard';
 
     this.form = this.fb.group({
       email: ['', Validators.compose([Validators.required, Validators.email])],
+      phone: [null],
       password: ['', Validators.compose([Validators.required])]
     });
   }
@@ -50,26 +53,30 @@ export class LoginComponent implements OnInit {
     // document.getElementById('Password').removeAttribute("readonly");
   }
 
+  // register
+  register(item: any){
+    this.authService.register(item.email.toLowerCase(), item.password)
+    .then((res: any)=>{
+      
+      let userData = localStorage.getItem("currentUser")
+      if(userData){
+        this.toastr.success("User Created Successfully");
+        this.showRegistration = false;
+      }
+    })
+  }
   //logs in user
-  onSubmit(item: any): void {
+  login(item: any): void {
     this.submitted = true
     this.loading = true;
     this.authService.login(item.email.toLowerCase(), item.password)
-      .pipe(first())
-      .subscribe((res: any) => {
-        res;       
+      .then((res: any) => {      
         let userData = localStorage.getItem('currentUser');
         let user = userData !== null ? JSON.parse(userData) : ""
-        if (user["first_time_login"] == false) {          
+        if (this.authService.isLoggedIn) {          
           this.router.navigateByUrl(this.returnUrl);
+          this.loading=false;
         } 
-        // else if(!pass && user["first_time_login"] == false){
-        //   this.authService.setPoliteRequest.next(true)
-        //   this.router.navigate(["/auth/set-password"])
-        // }
-        // else {
-        //   this.router.navigate(["/auth/set-password"])
-        // }
       },
         (error:any) => {
           if (error) {
@@ -83,5 +90,9 @@ export class LoginComponent implements OnInit {
   }
   toggleFieldTextType() {
     this.fieldTextType = !this.fieldTextType;
+  }
+
+  toggleRegistration(event: any){
+this.showRegistration = !this.showRegistration;
   }
 }

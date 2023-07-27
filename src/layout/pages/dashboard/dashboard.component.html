@@ -1,0 +1,32 @@
+<div fxLayout="row" fxLayoutAlign="space-between center" class="dashboard">
+    <mat-card flex="50">
+        <mat-card-header>
+            <mat-card-title>Account Details</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <h3>Total Balance: Ksh. 0.00</h3> 
+        </mat-card-content>
+    </mat-card>
+    <app-analytics></app-analytics>
+    <mat-card flex="33">
+        <mat-card-header>
+            <mat-card-title>Top Up</mat-card-title>
+        </mat-card-header>
+        <mat-card-content >
+            <h3>Current Balance: Ksh. 0.00</h3> 
+            <form fxLayout="column" fxLayoutAlign="center center">
+                <div class="form-group">
+                    <label for="phone">Phone Number <span class="required">*</span></label>
+                    <input type="tel" id="phone" required class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="amount">Amount <span class="required">*</span></label>
+                    <input type="number" required placeholder="enter amount" class="form-control">
+                </div>
+<br>
+                <button type="submit" class="btn btn-outline-primary">Buy from Mpesa</button>
+            </form>
+        </mat-card-content>
+    </mat-card>
+
+</div>
