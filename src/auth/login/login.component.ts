@@ -25,13 +25,7 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute,
     private toastr: ToastrService
 
-  ) {
-    // if (authService.currentUser) {
-    //   this.router.navigate(['/']);
-    // } else {
-    //   authService.logout();
-    // }
-  }
+  ) { }
 
   ngOnInit(): void {    
     
@@ -44,7 +38,6 @@ export class LoginComponent implements OnInit {
 
     this.form = this.fb.group({
       email: ['', Validators.compose([Validators.required, Validators.email])],
-      phone: [null],
       password: ['', Validators.compose([Validators.required])]
     });
   }
@@ -63,6 +56,8 @@ export class LoginComponent implements OnInit {
         this.toastr.success("User Created Successfully");
         this.showRegistration = false;
       }
+    }, err=>{
+      this.errorMessage = err;
     })
   }
   //logs in user

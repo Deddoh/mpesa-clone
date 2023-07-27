@@ -7,6 +7,7 @@ import { NzTableQueryParams } from "ng-zorro-antd/table";
 import { ToastrService } from "ngx-toastr";
 
 import { AuthService } from "src/auth/auth.service";
+import { CrudService } from "src/shared/crud.service";
 
 @Component({
   selector: "app-analytics",
@@ -54,6 +55,7 @@ export class AnalyticsComponent implements OnInit {
     public dialog: MatDialog,
     private authService: AuthService,
     private router: Router,
+    private crudService: CrudService,
     private toaster: ToastrService,
 
   ) {
@@ -61,21 +63,25 @@ export class AnalyticsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.userEmail = this.authService.currentUser["email"];
-    // this.getUsers();
-
+    this.getTopUps();
   }
 
-  //opens user creation modal
-  triggerModal(data: any): void {
-    this.router.navigate(["/users/add-user"]);
-    // this.updateUser = false;
-    this.userDetails = data;
-    // const dialogRef = this.dialog.open(AddUserComponent, {data: {data: this.userDetails, updateUser: this.updateUser}, height: '570px', width: '570px', disableClose: true});
-    // dialogRef.afterClosed().subscribe(() => {
-  
-    //   this.loadData();
-    // })
+  getTopUps(){
+this.crudService.getTopUps().subscribe(res=>{
+  console.log("Top Up Data", res)
+  this._data = res.map((e:any)=>{
+    const data = e.payload.doc.data();
+    data.id = e.payload.doc.id;
+    return data;
+  })
+}, err=> {
+  this.toaster.error("Unable to retrieve Top Ups!", err)
+
+})
+  }
+
+  deleteRecord(data: any){
+    return this.crudService.deleteTopUp(data);
   }
 
   //open user update modal

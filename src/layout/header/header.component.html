@@ -4,7 +4,6 @@
       <img src="assets/images/logo.svg" width="145px" height="45px" style="margin-left: -50px;">
     </div>
     <div class="search-bar" fxFlex>
-      <!-- <h4 style="text-align: left; color: #000000;" class="pl-3"> KENCHIC ADMIN PORTAL</h4> -->
     </div>
     <button (click)="goBack()" mat-icon-button class="ml-xs overflow-visible" title="Go back to previous page" aria-describedby="Go back to previous page">
       <mat-icon>fast_rewind</mat-icon>
@@ -18,23 +17,12 @@
         <span *ngIf="len">{{len}}</span>
       </button>
     </ng-template>
-    <!-- <button [matMenuTriggerFor]="user" mat-icon-button class="ml-xs">
-      <mat-icon>person</mat-icon>
-      <span class="notification-labelUser">{{currentUser}}</span>
-    </button> -->
     <button mat-button color="primary" class="round" [matMenuTriggerFor]="user">
       <mat-icon class="account">account_circle</mat-icon>&nbsp;
       <mat-icon  class="carret">keyboard_arrow_down</mat-icon>
     </button>
     <mat-menu #user="matMenu" x-position="before">
-      <button mat-menu-item (click)="viewProfile()">
-        <mat-icon>account_box</mat-icon>
-        My Profile
-      </button>
-      <button mat-menu-item (click)="passwordReset()">
-        <mat-icon>backspace</mat-icon>
-        Change Password
-      </button> 
+    
       <button mat-menu-item (click)="logout()">
         <mat-icon>exit_to_app</mat-icon>
         Sign Out
