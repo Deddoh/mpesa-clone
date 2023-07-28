@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import {AngularFirestore} from '@angular/fire/compat/firestore'
 import { ToastrService } from 'ngx-toastr';
 import {Buffer} from 'buffer';
+import * as corsModule from "cors";
+  const cors = corsModule({origin: true})
 
 @Injectable({
   providedIn: 'root'
@@ -48,6 +50,8 @@ export class CrudService {
       } else{
         return res;
       }
+    }, err=>{
+      this.toastr.error("We are experiencing a technical hitch. Getting back to you in a moment")
     })
   }
 
