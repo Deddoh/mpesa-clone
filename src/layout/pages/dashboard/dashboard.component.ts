@@ -30,7 +30,8 @@ type: ["", Validators.required]
 topUp(data: any){
  let accessToken = this.crudService.getAccessToken();
  console.log("Token", accessToken);
- if(accessToken !== null){
+ if(accessToken !== undefined){
+  this.crudService.initiateSTKPush(data)
 this.crudService.addTopUp(data);
  }
 }
