@@ -50,8 +50,18 @@
             autocomplete="off" formControlName="amount" />
           
             </div>
-          <small *ngIf="form.controls['phone'].hasError('required') && form.controls['phone'].touched"
-            class="mat-text-warn">Phone is required.</small>
+          <small *ngIf="form.controls['amount'].hasError('required') && form.controls['amount'].touched"
+            class="mat-text-warn">Amount is required.</small>
+        </div>
+
+        <div class="form-group" *ngIf="other">
+          <label for="">Receiver Name</label>
+          <div class="input-group">
+          <input class="form-control form-control-lg form-control-solid" type="text" name="recepient"
+            autocomplete="off" formControlName="recepient" />
+          
+            </div>
+      
         </div>
 <br>
                 <button type="submit" class="btn btn-outline-primary">Top Up Mpesa</button>
