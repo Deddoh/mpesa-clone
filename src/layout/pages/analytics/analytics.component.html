@@ -4,25 +4,30 @@
       (nzQueryParams)="onQueryParamsChange($event)">
       <thead>
         <tr>
-        
-          
+        <th>#</th>
+          <th>Transaction ID</th>
           <th>Phone Number</th>
-          <th>Amount</th>
+          <th>Amount(Ksh)</th>
           <th>Transaction Type</th>
+          <th>Initiated On</th>
           <th>Actions</th>
         
         </tr>
       </thead>
       <tbody nzSize="small">
         <tr *ngFor="let data of basicTable.data">
-      
+          <td>{{data.index}}</td>
+      <td>{{data.transactionId}}</td>
           <td><code>{{data.phone}}</code></td>
           <td>
           {{data.amount}}
           </td>
-          <td>
+          <td class="{{data.type}}">
           {{data.type}}
           </td>
+          <td>
+            {{data.dateCreated | date: "dd MMM yyyy h:mm:ss a"}}
+            </td>
           <td (click)="deleteRecord(data)"><mat-icon>delete</mat-icon></td>
         </tr>
       </tbody>

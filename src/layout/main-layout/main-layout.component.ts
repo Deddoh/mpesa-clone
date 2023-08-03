@@ -6,7 +6,6 @@ import {
 import { Event, NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router } from "@angular/router";
 import { AuthService } from "src/auth/auth.service";
 
-
 @Component({
   selector: "app-layout-inner",
   templateUrl: "./main-layout.component.html",

@@ -4,6 +4,7 @@ import {AngularFirestore} from '@angular/fire/compat/firestore'
 import { ToastrService } from 'ngx-toastr';
 import {Buffer} from 'buffer';
 import * as corsModule from "cors";
+import { map } from 'rxjs/operators';
   const cors = corsModule({origin: true})
 
 @Injectable({
@@ -18,12 +19,20 @@ export class CrudService {
   const auth =   Buffer.from(`"1SP3iVCWXknFX1LcfQYjvPn9Vidx2TXi":"FZv3Wv41DbaDOUsF"` ).toString('base64') 
 
     return new HttpHeaders()
-    .set('Authorization', 'Bearer ' + auth)
+    .set("grant_type", "client_credentials")
+    .set('Authorization', "Basic cFJZcjZ6anEwaThMMXp6d1FETUxwWkIzeVBDa2hNc2M6UmYyMkJmWm9nMHFRR2xWOQ==")
+    .set("Access-Control-Allow-Origin", "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials")
+    .set("Access-Control-Allow-Methods", "*")
+    .set("Access-Control-Allow-Headers", "Content-Type")
+    .set("username", "1SP3iVCWXknFX1LcfQYjvPn9Vidx2TXi")
+    .set("password", "FZv3Wv41DbaDOUsF")
   }
   // add top up to my number
   addTopUp(amount: any){
     amount.id = this.afs.createId();
-    return this.afs.collection('/TopUp').add(amount)
+    return this.afs.collection('/TopUp').add(amount).then((res)=>{
+      this.toastr.success(`Your Top Up request of Ksh. ${amount.amount} to ${amount.recepient !== null? amount.recepient : ""} ${amount.phone}  was successful. \n Transaction ID: ${amount.transactionId}`)
+    })
   }
 
   // get all top ups
@@ -42,20 +51,26 @@ export class CrudService {
   }
 // Mpesa stk push
   getAccessToken(){
-    const url = "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials";
 
-    this.httpClient.post(url, {headers: this.getHeaders()}).subscribe((res:any)=>{
-      if(res["status"] == 401){
-        this.toastr.error("Something went wrong")
-      } else{
-        return res;
-      }
-    }, err=>{
-      this.toastr.error("We are experiencing a technical hitch. Getting back to you in a moment")
-    })
+ return  this.httpClient.get("http://localhost:2000/access-token", {headers: this.getHeaders()})
+   
+    .pipe(map((res:any)=>{
+      res = res
+      localStorage.setItem("tokenBody", res["message"]["access_token"])
+      return res
+    }))
   }
 
-  initiateSTKPush (req: any){
+initiateSTKPush(data: any){
+  return this.httpClient.post("http://localhost:2000/stkpush", data, {headers: this.getHeaders()})
+
+  .pipe(map((res: any)=>{
+    res = res 
+    return res;
+  }))
+}
+
+  initiateSTKPushs (req: any){
     
 
         const {amount, phone,Order_ID} = req
